@@ -9,7 +9,29 @@
 */
 
 function calculateTotalSpentByCategory(transactions) {
-  return [];
+  var categoryMap = {};
+
+  for (var i = 0; i < transactions.length; i++) {
+    var transaction = transactions[i];
+    var category = transaction.category;
+    var price = transaction.price;
+
+    if (categoryMap.hasOwnProperty(category)) {
+      categoryMap[category] += price;
+    } else {
+      categoryMap[category] = price;
+    }
+  }
+
+  var result = [];
+
+  for (var category in categoryMap) {
+    var categoryObj = {};
+    categoryObj[category] = categoryMap[category];
+    result.push(categoryObj);
+  }
+
+  return result.map(obj => ({ category: Object.keys(obj)[0], totalSpent: obj[Object.keys(obj)[0]] }));
 }
 
 module.exports = calculateTotalSpentByCategory;
